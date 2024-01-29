@@ -1,18 +1,29 @@
 package com.app.slackdame.service;
 
+import com.app.slackdame.entity.Channel;
 import com.app.slackdame.entity.Post;
+import com.app.slackdame.entity.User;
+import com.app.slackdame.repository.ChannelRepository;
 import com.app.slackdame.repository.PostRepository;
+import com.app.slackdame.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostService {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    ChannelRepository channelRepository;
 
     public List<Post> getAllPosts() {
         List<Post> posts = new ArrayList<>();
@@ -29,8 +40,21 @@ public class PostService {
     }
 
     public Post addPost(Post post) {
-        postRepository.save(post);
-        return post;
+        Optional<User> existingUser = userRepository.findById(post.getIdUser());
+        Optional<Channel> existingChannel = channelRepository.findById(post.getIdChannel());
+
+        if (existingUser.isPresent() && existingChannel.isPresent()) {
+            User user = existingUser.get();
+            Channel channel = existingChannel.get();
+
+            post.setUser(user);
+            post.setChannel(channel);
+            postRepository.save(post);
+            return post;
+        }else {
+            System.out.println("La personne n'existe pas pas");
+            return null; // or throw an exception, depending on your application's requirements
+        }
     }
 
     public Post updatePost(Post post, long id) {

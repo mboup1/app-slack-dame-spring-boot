@@ -1,5 +1,6 @@
 package com.app.slackdame.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -12,20 +13,19 @@ public class Channel {
     private Long id;
 
     private String nameChannel;
+    private Boolean deletable;
+    private Long idUser;
 
     public Channel() {
     }
 
-    public Channel(String nameChannel) {
-        this.nameChannel = nameChannel;
-    }
-
-    @OneToMany(mappedBy ="channel" ,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 
-    @ManyToOne
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
-
 
     public Long getId() {
         return id;
@@ -43,7 +43,23 @@ public class Channel {
         this.nameChannel = nameChannel;
     }
 
-    public List<Post> getPosts() {
+    public Boolean getDeletable() {
+        return deletable;
+    }
+
+    public void setDeletable(Boolean deletable) {
+        this.deletable = deletable;
+    }
+
+    public Long getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
+    }
+
+        public List<Post> getPosts() {
         return posts;
     }
 
@@ -59,11 +75,14 @@ public class Channel {
         this.user = user;
     }
 
+
     @Override
     public String toString() {
         return "Channel{" +
                 "id=" + id +
                 ", nameChannel='" + nameChannel + '\'' +
+                ", deletable=" + deletable +
+                ", idUser=" + idUser +
                 '}';
     }
 }

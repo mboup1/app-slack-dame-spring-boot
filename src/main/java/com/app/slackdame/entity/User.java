@@ -17,20 +17,13 @@ public class User {
     private String password;
     private String avatar;
 
-
     public User() { }
 
-    public User(String name, String email, String password, String avatar) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.avatar = avatar;
-    }
-
-    @OneToMany(mappedBy = "user")
+    //When deleting a user, delete associated posts
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Channel> channels;
 
     public Long getId() {

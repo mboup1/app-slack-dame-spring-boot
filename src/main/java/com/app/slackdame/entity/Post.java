@@ -1,9 +1,9 @@
 package com.app.slackdame.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
-
 
 @Entity
 @Table(name="posts")
@@ -15,20 +15,21 @@ public class Post {
 
     private String message;
     private Date datePost;
+    private Long idUser;
+    private Long idChannel;
 
 
     public Post() {
     }
 
-    public Post(String message, Date datePost) {
-        this.message = message;
-        this.datePost = datePost;
-    }
-
-    @ManyToOne
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
-    @ManyToOne
+    @ManyToOne()
+    @JoinColumn(name = "channel_id")
+    @JsonIgnore
     private Channel channel;
 
     public Long getId() {
@@ -71,12 +72,32 @@ public class Post {
         this.channel = channel;
     }
 
+    public Long getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
+    }
+
+    public Long getIdChannel() {
+        return idChannel;
+    }
+
+    public void setIdChannel(Long idChannel) {
+        this.idChannel = idChannel;
+    }
+
     @Override
     public String toString() {
         return "Post{" +
                 "id=" + id +
                 ", message='" + message + '\'' +
                 ", datePost=" + datePost +
+                ", idUser=" + idUser +
+                ", idChannel=" + idChannel +
+                ", user=" + user +
+                ", channel=" + channel +
                 '}';
     }
 }
