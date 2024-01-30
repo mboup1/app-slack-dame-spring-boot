@@ -3,6 +3,7 @@ package com.app.slackdame.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,10 +23,19 @@ public class Channel {
     @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 
-    @ManyToOne()
-    @JoinColumn(name = "user_id")
+//    @ManyToOne()
+//    @JoinColumn(name = "user_id")
+//    @JsonIgnore
+//    private User user;
+
+    @ManyToMany
+    @JoinTable(
+            name = "channel_user",
+            joinColumns = @JoinColumn(name = "channel_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     @JsonIgnore
-    private User user;
+    private List<User> users = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -67,13 +77,30 @@ public class Channel {
         this.posts = posts;
     }
 
-    public User getUser() {
-        return user;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
+
+    public void addUser(User user) {
+        users.add(user);
+    }
+    public void removeUser(User user) {
+        users.remove(user);
+    }
+
+
+
+    //    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 
 
     @Override

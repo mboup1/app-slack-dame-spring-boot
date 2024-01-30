@@ -2,6 +2,7 @@ package com.app.slackdame.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,6 +17,7 @@ public class User {
     private String email;
     private String password;
     private String avatar;
+    private Long idChannel;
 
     public User() { }
 
@@ -23,8 +25,16 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Channel> channels;
+    @ManyToMany
+    @JoinTable(
+            name = "channel_user",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "channel_id")
+    )
+    private List<Channel> channels = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Channel> channels;
 
     public Long getId() {
         return id;
@@ -66,6 +76,14 @@ public class User {
         this.avatar = avatar;
     }
 
+    public Long getIdChannel() {
+        return idChannel;
+    }
+
+    public void setIdChannel(Long idChannel) {
+        this.idChannel = idChannel;
+    }
+
     public List<Post> getPosts() {
         return posts;
     }
@@ -80,6 +98,12 @@ public class User {
 
     public void setChannels(List<Channel> channels) {
         this.channels = channels;
+    }
+
+    public void addChannel(Channel channel) {
+        channels.add(channel);
+    }
+    public void removeUser(Channel channel) {channels.remove(channel);
     }
 
     @Override
