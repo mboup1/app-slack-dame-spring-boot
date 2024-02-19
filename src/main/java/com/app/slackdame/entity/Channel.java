@@ -21,6 +21,7 @@ public class Channel {
     }
 
     @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Post> posts;
 
 //    @ManyToOne()
@@ -34,7 +35,7 @@ public class Channel {
             joinColumns = @JoinColumn(name = "channel_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    @JsonIgnore
+//    @JsonIgnore
     private List<User> users = new ArrayList<>();
 
     public Long getId() {

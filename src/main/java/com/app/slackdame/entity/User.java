@@ -1,5 +1,6 @@
 package com.app.slackdame.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class User {
     private List<Post> posts;
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(
             name = "channel_user",
             joinColumns = @JoinColumn(name = "user_id"),
