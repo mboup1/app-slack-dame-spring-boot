@@ -35,27 +35,29 @@ public class UserService {
 //    }
 
     public User addUser(User user) {
-        Optional<Channel> existingChannel = channelRepository.findById(user.getIdChannel());
+//        Optional<Channel> existingChannel = channelRepository.findById(user.getIdChannel());
+//
+//        if (existingChannel.isPresent()) {
+//            Channel channel = existingChannel.get();
 
-        if (existingChannel.isPresent()) {
-            Channel channel = existingChannel.get();
+//            user.setChannels(channel);
+        userRepository.save(user);
 
-            user.addChannel(channel);
-            userRepository.save(user);
-
-            return user;
-        } else {
-            System.out.println("Erreur");
-            return null; // or throw an exception, depending on your application's requirements
-        }
+        return user;
+//        } else {
+//            System.out.println("Erreur");
+//            return null; // or throw an exception, depending on your application's requirements
+//        }
     }
 
     public void deleteUser(long id) {
         userRepository.deleteById(id);
     }
 
-    public User updateUser(User user) {
-        userRepository.save(user);
-        return user;
-    }
+    public User updateUser(Long id, User updatedUser) {
+        System.out.println(id);
+        updatedUser.setId(id);
+            return userRepository.save(updatedUser);
+        }
+
 }

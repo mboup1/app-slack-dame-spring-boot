@@ -50,8 +50,29 @@ public class ChannelService {
         channelRepository.deleteById(id);
     }
 
-    public Channel updateChannel(Channel channel, long id) {
-        channelRepository.save(channel);
-        return channel;
+    public Channel updateChannel(Channel updatedChannel, long id) {
+        // Récupérer le canal existant
+        Channel existingChannel = channelRepository.findById(id).orElse(null);
+
+        // Vérifier si le canal existe
+        if (existingChannel != null) {
+            // Mettre à jour les propriétés du canal existant
+            if (updatedChannel.getNameChannel() != null && !updatedChannel.getNameChannel().isBlank()) {
+                existingChannel.setNameChannel(updatedChannel.getNameChannel());
+            }
+
+            if (updatedChannel.getDeletable() != null) {
+            existingChannel.setDeletable(updatedChannel.getDeletable());
+            }
+
+            // Enregistrer les modifications dans le repository
+            channelRepository.save(existingChannel);
+
+            return existingChannel;
+        } else {
+            // Canal non trouvé, renvoyer null ou gérer l'erreur selon vos besoins
+            return null;
+        }
     }
+
 }

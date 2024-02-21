@@ -17,26 +17,32 @@ public class Channel {
     private Boolean deletable;
     private Long idUser;
 
+    @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JsonIgnore
+    private List<Post> posts;
+
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+//    @JsonIgnore
+    private User user;
+
+//    @ManyToMany
+//    @JoinTable(
+//            name = "channel_user",
+//            joinColumns = @JoinColumn(name = "channel_id"),
+//            inverseJoinColumns = @JoinColumn(name = "user_id")
+//    )
+////    @JsonIgnore
+//    private List<User> users = new ArrayList<>();
+
+
     public Channel() {
     }
 
-    @OneToMany(mappedBy = "channel", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<Post> posts;
-
-//    @ManyToOne()
-//    @JoinColumn(name = "user_id")
-//    @JsonIgnore
-//    private User user;
-
-    @ManyToMany
-    @JoinTable(
-            name = "channel_user",
-            joinColumns = @JoinColumn(name = "channel_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-//    @JsonIgnore
-    private List<User> users = new ArrayList<>();
+    public Channel(String nameChannel, Boolean deletable) {
+        this.nameChannel = nameChannel;
+        this.deletable = deletable;
+    }
 
     public Long getId() {
         return id;
@@ -70,7 +76,7 @@ public class Channel {
         this.idUser = idUser;
     }
 
-        public List<Post> getPosts() {
+    public List<Post> getPosts() {
         return posts;
     }
 
@@ -78,30 +84,30 @@ public class Channel {
         this.posts = posts;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public void addUser(User user) {
-        users.add(user);
-    }
-    public void removeUser(User user) {
-        users.remove(user);
-    }
-
-
-
-    //    public User getUser() {
-//        return user;
+//    public List<User> getUsers() {
+//        return users;
 //    }
 //
-//    public void setUser(User user) {
-//        this.user = user;
+//    public void setUsers(List<User> users) {
+//        this.users = users;
 //    }
+//
+//    public void addUser(User user) {
+//        users.add(user);
+//    }
+//    public void removeUser(User user) {
+//        users.remove(user);
+//    }
+
+
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
 
     @Override
@@ -111,6 +117,8 @@ public class Channel {
                 ", nameChannel='" + nameChannel + '\'' +
                 ", deletable=" + deletable +
                 ", idUser=" + idUser +
+                ", posts=" + posts +
+                ", user=" + user +
                 '}';
     }
 }

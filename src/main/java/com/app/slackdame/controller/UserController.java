@@ -82,7 +82,7 @@ public class UserController {
         }
 
         // Save the updated user
-        userService.updateUser(existingUser);
+        userService.updateUser( id, existingUser);
 
         return ResponseEntity.noContent().build();
     }

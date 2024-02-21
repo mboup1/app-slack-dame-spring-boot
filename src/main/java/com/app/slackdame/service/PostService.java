@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,15 +41,16 @@ public class PostService {
     }
 
     public Post addPost(Post post) {
-        Optional<User> existingUser = userRepository.findById(post.getIdUser());
+//        Optional<User> existingUser = userRepository.findById(post.getIdUser());
         Optional<Channel> existingChannel = channelRepository.findById(post.getIdChannel());
 
-        if (existingUser.isPresent() && existingChannel.isPresent()) {
-            User user = existingUser.get();
+        if (existingChannel.isPresent()) {
+//            User user = existingUser.get();
             Channel channel = existingChannel.get();
 
-            post.setUser(user);
+//            post.setUser(user);
             post.setChannel(channel);
+            post.setDatePost(new Date());
             postRepository.save(post);
             return post;
         }else {

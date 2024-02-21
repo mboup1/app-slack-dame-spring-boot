@@ -18,10 +18,6 @@ public class Post {
     private Long idUser;
     private Long idChannel;
 
-
-    public Post() {
-    }
-
     @ManyToOne()
     @JoinColumn(name = "user_id")
     @JsonIgnore
@@ -31,6 +27,15 @@ public class Post {
     @JoinColumn(name = "channel_id")
     @JsonIgnore
     private Channel channel;
+
+
+    public Post() {
+    }
+
+    public Post(String message, Date datePost) {
+        this.message = message;
+        this.datePost = datePost;
+    }
 
     public Long getId() {
         return id;

@@ -20,23 +20,32 @@ public class User {
     private String avatar;
     private Long idChannel;
 
-    public User() { }
+
 
     //When deleting a user, delete associated posts
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 
-    @ManyToMany
-    @JsonIgnore
-    @JoinTable(
-            name = "channel_user",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "channel_id")
-    )
-    private List<Channel> channels = new ArrayList<>();
+//    @ManyToMany
+//    @JoinTable(
+//            name = "channel_user",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "channel_id")
+//    )
+//        @JsonIgnore
+//    private List<Channel> channels = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Channel> channels;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Channel> channels;
+
+    public User() { }
+
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
 
     public Long getId() {
         return id;
@@ -108,6 +117,7 @@ public class User {
     public void removeUser(Channel channel) {channels.remove(channel);
     }
 
+
     @Override
     public String toString() {
         return "User{" +
@@ -116,6 +126,8 @@ public class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", avatar='" + avatar + '\'' +
+                ", idChannel=" + idChannel +
+                ", posts=" + posts +
                 '}';
     }
 }
