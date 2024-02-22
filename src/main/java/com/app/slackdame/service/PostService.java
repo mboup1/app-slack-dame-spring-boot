@@ -41,12 +41,12 @@ public class PostService {
     }
 
     public Post addPost(Post post) {
-//        Optional<User> existingUser = userRepository.findById(post.getIdUser());
         Optional<Channel> existingChannel = channelRepository.findById(post.getIdChannel());
 
         if (existingChannel.isPresent()) {
 //            User user = existingUser.get();
             Channel channel = existingChannel.get();
+        System.out.println("channel : "+ channel);
 
 //            post.setUser(user);
             post.setChannel(channel);
@@ -60,7 +60,26 @@ public class PostService {
     }
 
     public Post updatePost(Post post, long id) {
-        postRepository.save(post);
-        return post;
+//        System.out.println("id mis a jour : "+ id);
+//        System.out.println("post : "+ post);
+        Optional<Channel> existingChannelUpdate = channelRepository.findById(post.getIdChannel());
+
+//        return post;
+
+        if (existingChannelUpdate.isPresent()) {
+//            User user = existingUser.get();
+            Channel channel = existingChannelUpdate.get();
+            System.out.println("channel upda : "+ channel);
+
+//            post.setUser(user);
+            post.setChannel(channel);
+            post.setDatePost(new Date());
+            post.setId(id);
+            postRepository.save(post);
+            return post;
+        }else {
+            System.out.println("La personne n'existe pas pas");
+            return null; // or throw an exception, depending on your application's requirements
+        }
     }
 }

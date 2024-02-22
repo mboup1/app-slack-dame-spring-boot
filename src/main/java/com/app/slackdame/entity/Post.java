@@ -101,7 +101,6 @@ public class Post {
                 ", datePost=" + datePost +
                 ", idUser=" + idUser +
                 ", idChannel=" + idChannel +
-                ", user=" + user +
                 ", channel=" + channel +
                 '}';
     }

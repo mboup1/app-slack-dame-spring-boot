@@ -31,19 +31,13 @@ public class ChannelService {
     }
 
     public Channel addChannel(Channel channel) {
-//        Optional<User> existingUser = userRepository.findById(channel.getIdUser());
-//
-//        if (existingUser.isPresent()) {
-//            User user = existingUser.get();
-//
-//            channel.addUser(user);
+        if (channel.getDeletable()==null){
+        channel.setDeletable(true);
+        }
             channelRepository.save(channel);
 
             return channel;
-//        } else {
-//            System.out.println("La personne n'existe pas");
-//            return null; // or throw an exception, depending on your application's requirements
-//        }
+
     }
 
     public void deleteChannel(long id) {

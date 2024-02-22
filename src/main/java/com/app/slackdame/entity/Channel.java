@@ -116,9 +116,7 @@ public class Channel {
                 "id=" + id +
                 ", nameChannel='" + nameChannel + '\'' +
                 ", deletable=" + deletable +
-                ", idUser=" + idUser +
-                ", posts=" + posts +
-                ", user=" + user +
+//                ", posts=" + posts +
                 '}';
     }
 }
